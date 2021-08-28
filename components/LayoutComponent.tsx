@@ -1,6 +1,7 @@
-import { FC, ReactChild } from 'react';
+import { FC, Fragment, ReactChild } from 'react';
 import Container from '@material-ui/core/Container';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import NavBarComponent from './NavBarComponent';
 
 interface ILayoutProps {
   children: ReactChild;
@@ -18,9 +19,12 @@ const LayoutComponent: FC<ILayoutProps> = (props: ILayoutProps) => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="md" className={classes.root}>
-      {props.children}
-    </Container>
+    <Fragment>
+      <NavBarComponent />
+      <Container maxWidth="lg" className={classes.root}>
+        {props.children}
+      </Container>
+    </Fragment>
   );
 };
 
