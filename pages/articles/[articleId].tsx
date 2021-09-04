@@ -1,5 +1,8 @@
+import { Button } from '@material-ui/core';
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import { GetServerSideProps } from 'next';
+import { Fragment, useState } from 'react';
+import { getArticles } from '../../services/article-service';
 
 interface IArticlePageProps {
   id: string;
@@ -24,10 +27,23 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 };
 
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
+  const [token, setToken] = useState('');
+
+  const handleGetToken = async () => {
+    //const tkn = await getUserTokenId();
+    // setToken(tkn ?? 'token not found');
+    const data = await getArticles();
+    console.log(data);
+  };
+
   return (
-    <h1>
-      {props.title}: Article Id: {props.id}
-    </h1>
+    <Fragment>
+      <h1>
+        {props.title}: Article Id: {props.id}
+      </h1>
+      <Button onClick={handleGetToken}>Get Token</Button>
+      {`The current token is: ${token}`}
+    </Fragment>
   );
 };
 

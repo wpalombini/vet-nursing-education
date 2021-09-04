@@ -23,3 +23,7 @@ export const login = async (): Promise<UserCredential> => {
 export const logout = async (): Promise<void> => {
   await signOut(auth);
 };
+
+export const getUserTokenId = async (): Promise<string | undefined> => {
+  return await auth.currentUser?.getIdToken(false);
+};

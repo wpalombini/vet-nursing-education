@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "nextServer"
+      }
+    ]
+  },
+  "functions": {
+    "predeploy": "tsc function.ts",
+    "postdeploy": "del function.js && cd functions && del /s *.js",
+    "source": ".",
+    "runtime": "nodejs14",
+    "ignore": [".firebase/**", ".firebaserc", "firebase.json", "**/node_modules/**"]
+  }
+}
