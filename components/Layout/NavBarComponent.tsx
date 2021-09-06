@@ -7,13 +7,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link as LinkUI } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { login, logout } from '../utils/firebase';
+import { login, logout } from '../../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Router from 'next/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,6 +61,11 @@ const NavBarComponent: FC = () => {
     await logout();
   };
 
+  const newArticleHandler = () => {
+    closeHandler();
+    Router.push('/articles/create');
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="lg">
@@ -102,6 +108,7 @@ const NavBarComponent: FC = () => {
               >
                 <MenuItem onClick={closeHandler}>Profile</MenuItem>
                 <MenuItem onClick={closeHandler}>My account</MenuItem>
+                <MenuItem onClick={newArticleHandler}>Create new article</MenuItem>
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </Menu>
             </div>

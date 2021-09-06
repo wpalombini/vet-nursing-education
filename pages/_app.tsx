@@ -4,7 +4,7 @@ import { FC, Fragment, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from '../styles/theme';
-import LayoutComponent from '../components/LayoutComponent';
+import LayoutComponent from '../components/Layout/LayoutComponent';
 
 const VNEApp: FC<any> = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
