@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:functions": "npm run build:functions && firebase emulators:start --only functions",
+    "dev:functions": "npm run build:functions && firebase emulators:start --only functions,firestore",
     "build": "next build",
     "build:functions": "tsc function.ts --outDir output",
     "start": "next start",
