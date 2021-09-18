@@ -27,3 +27,11 @@ export const logout = async (): Promise<void> => {
 export const getUserTokenId = async (): Promise<string | undefined> => {
   return await auth.currentUser?.getIdToken(false);
 };
+
+export const getUserId = async (): Promise<string | undefined> => {
+  return await auth.currentUser?.uid;
+};
+
+export const getUserName = async (): Promise<string | null | undefined> => {
+  return await auth.currentUser?.displayName;
+};

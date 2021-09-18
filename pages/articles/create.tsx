@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import { NextPage } from 'next';
 import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import { ArticleDto } from '../../models/article.dto';
+import { createArticle } from '../../services/article-service';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +34,22 @@ const CreateArticlePage: NextPage = () => {
     formState: { errors, isDirty, isSubmitSuccessful },
     handleSubmit,
     register,
+    reset,
   } = useForm<INewArticleFormData>();
 
-  const saveHandler = (data: INewArticleFormData) => {
-    console.log(data);
+  const saveHandler = (formData: INewArticleFormData) => {
+    const saveArticle = async (article: ArticleDto) => {
+      // save article
+      const result = await createArticle(article);
+
+      // reset form
+      reset({} as INewArticleFormData, { keepDirty: false });
+    };
+
+    const data: ArticleDto = new ArticleDto();
+    data.title = formData.title;
+    data.content = formData.content;
+    saveArticle(data);
   };
 
   return (

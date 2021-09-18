@@ -5,12 +5,13 @@ type Data = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>): Promise<void> => {
-  const authHeader = req.headers.authorization;
+  const requestInit: RequestInit = {
+    method: 'POST',
+    headers: { authorization: req.headers.authorization } as HeadersInit,
+    body: req.body,
+  };
 
-  const response = await fetch(
-    `${process.env.BASE_FUNCTION_URL}/articles`,
-    authHeader ? { headers: { Authorization: authHeader } } : undefined,
-  );
+  const response = await fetch(`${process.env.BASE_FUNCTION_URL}/createarticle`, requestInit);
 
   const data = await response.json();
 
