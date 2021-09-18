@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "predeploy": "npm run build",
     "public": "public",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
@@ -10,8 +11,7 @@
     ]
   },
   "functions": {
-    "predeploy": "tsc function.ts",
-    "postdeploy": "del function.js && cd functions && del /s *.js",
+    "predeploy": "npm run build:functions",
     "source": ".",
     "runtime": "nodejs14",
     "ignore": [".firebase/**", ".firebaserc", "firebase.json", "**/node_modules/**"]

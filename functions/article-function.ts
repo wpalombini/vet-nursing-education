@@ -1,19 +1,7 @@
 import * as functions from 'firebase-functions';
-
-class AuthorDto {
-  public id: string | undefined;
-  public name: string | undefined;
-}
-
-class ArticleDto {
-  public id: string | undefined;
-  public title: string | undefined;
-  public author: AuthorDto | undefined;
-}
-
-class BaseResponseDto<T> {
-  constructor(public success: boolean, message: string, public data: T) {}
-}
+import { ArticleDto } from '../models/article.dto';
+import { AuthorDto } from '../models/author.dto';
+import { BaseResponseDto } from '../models/base.dto';
 
 export const articlesFunction = functions.https.onRequest(
   (req: functions.Request, res: functions.Response<BaseResponseDto<ArticleDto[]>>) => {

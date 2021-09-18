@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from '../styles/theme';
 import LayoutComponent from '../components/Layout/LayoutComponent';
+import { UXProvider } from '../providers/UXProvider';
 
 const VNEApp: FC<any> = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
@@ -23,9 +24,11 @@ const VNEApp: FC<any> = ({ Component, pageProps }: AppProps) => {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <LayoutComponent>
-          <Component {...pageProps} />
-        </LayoutComponent>
+        <UXProvider>
+          <LayoutComponent>
+            <Component {...pageProps} />
+          </LayoutComponent>
+        </UXProvider>
       </ThemeProvider>
     </Fragment>
   );
