@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:functions": "firebase emulators:start --only functions",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
