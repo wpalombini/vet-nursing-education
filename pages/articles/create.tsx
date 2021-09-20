@@ -41,6 +41,7 @@ const CreateArticlePage: NextPage = () => {
     const saveArticle = async (article: ArticleDto) => {
       // save article
       const result = await createArticle(article);
+      console.log(result);
 
       // reset form
       reset({} as INewArticleFormData, { keepDirty: false });
