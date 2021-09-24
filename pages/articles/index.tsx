@@ -1,5 +1,4 @@
-import type { GetServerSidePropsContext, NextPage } from 'next';
-import { GetServerSideProps } from 'next';
+import type { NextPage } from 'next';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { Link as LinkUI } from '@material-ui/core';
 import Link from 'next/link';

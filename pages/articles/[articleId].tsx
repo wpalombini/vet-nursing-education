@@ -1,8 +1,6 @@
-import { Button } from '@material-ui/core';
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import { GetServerSideProps } from 'next';
-import { Fragment, useState } from 'react';
-import { getArticles } from '../../services/article-service';
+import { Fragment } from 'react';
 
 interface IArticlePageProps {
   id: string;

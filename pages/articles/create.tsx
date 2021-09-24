@@ -31,7 +31,7 @@ const CreateArticlePage: NextPage = () => {
   const classes = useStyles();
 
   const {
-    formState: { errors, isDirty, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     register,
     reset,
