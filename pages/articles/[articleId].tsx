@@ -7,6 +7,7 @@ import { getArticles } from '../../services/article-service';
 interface IArticlePageProps {
   id: string;
   title: string;
+  content: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
@@ -27,22 +28,10 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 };
 
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
-  const [token, setToken] = useState('');
-
-  const handleGetToken = async () => {
-    //const tkn = await getUserTokenId();
-    // setToken(tkn ?? 'token not found');
-    const data = await getArticles();
-    console.log(data);
-  };
-
   return (
     <Fragment>
-      <h1>
-        {props.title}: Article Id: {props.id}
-      </h1>
-      <Button onClick={handleGetToken}>Get Token</Button>
-      {`The current token is: ${token}`}
+      <h1>Article: {props.title}</h1>
+      {props.content}
     </Fragment>
   );
 };

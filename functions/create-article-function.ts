@@ -2,7 +2,6 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 import { ArticleDto } from '../models/article.dto';
-import { AuthorDto } from '../models/author.dto';
 import { BaseResponseDto } from '../models/base.dto';
 
 export const createArticleFunction = functions.https.onRequest(
