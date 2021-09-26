@@ -2,14 +2,14 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 import { ArticleDto } from '../models/article.dto';
-import { BaseResponseDto } from '../models/base.dto';
+import { ResponseDto } from '../models/response.dto';
 
 export const createArticleFunction = functions.https.onRequest(
-  async (req: functions.Request, res: functions.Response<BaseResponseDto<ArticleDto>>) => {
+  async (req: functions.Request, res: functions.Response<ResponseDto<ArticleDto>>) => {
     functions.logger.info('Start creating article', { model: JSON.parse(req.body) });
 
     if (req.method !== 'POST') {
-      res.status(500).json(new BaseResponseDto<any>(false, 'Invalid http method', null));
+      res.status(500).json(new ResponseDto<any>(false, 'Invalid http method', null));
       return;
     }
 
@@ -24,7 +24,7 @@ export const createArticleFunction = functions.https.onRequest(
     const document = await db.collection('articles').add(article);
     article.id = document.id;
 
-    res.status(200).json(new BaseResponseDto<ArticleDto>(true, '', article));
+    res.status(200).json(new ResponseDto<ArticleDto>(true, '', article));
     functions.logger.info('End creating article', { authorization: req.headers.authorization, article: article });
   },
 );

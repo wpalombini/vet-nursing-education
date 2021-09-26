@@ -1,3 +1,5 @@
-export class BaseResponseDto<T> {
-  constructor(public success: boolean, message: string, public data: T) {}
+export abstract class BaseDto {
+  public id: string | undefined;
+  public createdAt: string | undefined;
+  public modifiedAt: string | undefined;
 }
