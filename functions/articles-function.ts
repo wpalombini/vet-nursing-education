@@ -13,7 +13,9 @@ export const articlesFunction = functions.https.onRequest(
 
     const db = admin.firestore();
 
-    const snapshot = await db.collection('articles').get();
+    // skip 'content' field
+    const snapshot = await db.collection('articles').select('id', 'title', 'createdAt', 'modifiedAt', 'author').get();
+
     const articles = snapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() } as ArticleDto;
     });
