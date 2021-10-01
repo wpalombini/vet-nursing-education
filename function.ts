@@ -1,7 +1,6 @@
 import { https } from 'firebase-functions';
 const { default: next } = require('next');
 import { articlesFunction } from './functions/articles-function';
-import { createArticleFunction } from './functions/create-article-function';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -16,4 +15,3 @@ export const nextServer = https.onRequest((req, res) => {
 });
 
 export const articles = articlesFunction;
-export const createarticle = createArticleFunction;

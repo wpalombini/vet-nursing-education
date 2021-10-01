@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>): Promise
     body: req.body,
   };
 
-  const response = await fetch(`${process.env.BASE_FUNCTION_URL}/createarticle`, requestInit);
+  const response = await fetch(`${process.env.BASE_FUNCTION_URL}/articles`, requestInit);
 
   const data = await response.json();
 
