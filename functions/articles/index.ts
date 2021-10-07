@@ -1,8 +1,8 @@
 if (process.env.AZURE_FUNCTIONS_ENVIRONMENT === 'Development') {
     require("dotenv").config();
 }
+import { CosmosClient } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { CosmosClient } from '@azure/cosmos';
 
 const getDbContainer= async () => {
     const client = new CosmosClient({ 
