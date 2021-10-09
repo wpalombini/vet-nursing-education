@@ -23,7 +23,7 @@ const isAuthorized: (context: Context, req: HttpRequest) => Promise<boolean> = a
   const authApp = getAuthApp();
 
   try {
-    await authApp.auth().verifyIdToken(token);
+    await authApp.auth().verifyIdToken(token, true);
     return true;
   } catch (error) {
     context.log('invalid token', { error });

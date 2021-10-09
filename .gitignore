@@ -94,3 +94,5 @@ appsettings.json
 local.settings.json
 
 .env
+
+service-account.json
