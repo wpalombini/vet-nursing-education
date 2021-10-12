@@ -77,7 +77,7 @@ const createArticle = async (context: Context, req: HttpRequest) => {
 
   context.res = {
     status: 201,
-    body: article,
+    body: new ResponseDto<ArticleDto>(true, '', article),
   };
 };
 
