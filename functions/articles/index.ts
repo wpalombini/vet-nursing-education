@@ -4,6 +4,8 @@ if (process.env.AZURE_FUNCTIONS_ENVIRONMENT === 'Development') {
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
 import { getDbContainer } from '../database';
 import { getAuthApp } from '../identity';
+import { ArticleDto } from '../models/article.dto';
+import { ResponseDto } from '../models/response.dto';
 
 const isAuthorized: (context: Context, req: HttpRequest) => Promise<boolean> = async (
   context: Context,
@@ -15,7 +17,7 @@ const isAuthorized: (context: Context, req: HttpRequest) => Promise<boolean> = a
   if (!token) {
     context.res = {
       status: 401,
-      body: 'unauthorized',
+      body: new ResponseDto(false, 'unauthorized', null),
     };
     return false;
   }
@@ -30,7 +32,7 @@ const isAuthorized: (context: Context, req: HttpRequest) => Promise<boolean> = a
 
     context.res = {
       status: 401,
-      body: error,
+      body: new ResponseDto<any>(false, 'invalid token', error),
     };
     return false;
   }
@@ -56,7 +58,7 @@ const getArticles = async (context: Context, req: HttpRequest) => {
 
   context.res = {
     // status: 200, /* Defaults to 200 */
-    body: data,
+    body: new ResponseDto<ArticleDto[]>(true, '', data),
   };
 };
 
