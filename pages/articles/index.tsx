@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { Link as LinkUI } from '@material-ui/core';
 import Link from 'next/link';
@@ -44,6 +45,9 @@ const ArticlesPage: NextPage<IArticlesPageProps> = (props: IArticlesPageProps) =
 
   return (
     <Fragment>
+      <Head>
+        <title>VNE - Articles</title>
+      </Head>
       <h1>{props.title}</h1>
       {!isLoading &&
         articles &&

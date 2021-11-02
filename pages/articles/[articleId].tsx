@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { Fragment } from 'react';
 
 interface IArticlePageProps {
@@ -28,6 +29,9 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
   return (
     <Fragment>
+      <Head>
+        <title>VNE - {props.id}</title>
+      </Head>
       <h1>Article: {props.title}</h1>
       {props.content}
     </Fragment>
