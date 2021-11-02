@@ -2,11 +2,7 @@
   "hosting": {
     "predeploy": "npm run build",
     "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
@@ -17,13 +13,8 @@
   "functions": {
     "predeploy": "npm run build:functions",
     "source": ".",
-    "runtime": "nodejs14",
-    "ignore": [
-      ".firebase/**",
-      ".firebaserc",
-      "firebase.json",
-      "**/node_modules/**"
-    ]
+    "runtime": "nodejs16",
+    "ignore": [".firebase/**", ".firebaserc", "firebase.json", "**/node_modules/**"]
   },
   "emulators": {
     "functions": {
