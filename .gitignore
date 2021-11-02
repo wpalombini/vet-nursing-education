@@ -28,6 +28,9 @@ firebase-debug.log*
 firestore-debug.log*
 ui-debug.log*
 
+# firebase
+/.firebase/
+
 # local env files
 .env.local
 .env.development.local
