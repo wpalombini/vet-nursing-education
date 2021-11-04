@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Fragment, useContext, useEffect, useState } from 'react';
-import { Link as LinkUI } from '@material-ui/core';
+import { Link as LinkUI } from '@mui/material';
 import Link from 'next/link';
 import { getArticles } from '../../services/article-service';
 import { ArticleDto } from '../../models/article.dto';

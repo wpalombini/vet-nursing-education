@@ -1,35 +1,21 @@
 import { FC, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Container from '@material-ui/core/Container';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { Link as LinkUI } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { Link as LinkUI } from '@mui/material';
+import Button from '@mui/material/Button';
 import { login, logout } from '../../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import IconButton from '@mui/material/IconButton';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import Router from 'next/router';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    title: {
-      flexGrow: 1,
-      '& a': {
-        color: 'white',
-      },
-    },
-  }),
-);
-
 const NavBarComponent: FC = () => {
-  const classes = useStyles();
-
   const [user, loading, error] = useAuthState(getAuth());
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -70,9 +56,11 @@ const NavBarComponent: FC = () => {
     <AppBar position="static">
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
             <Link href="/">
-              <LinkUI href="/">Vet Nursing Education</LinkUI>
+              <LinkUI color="#FFF" href="/">
+                Vet Nursing Education
+              </LinkUI>
             </Link>
           </Typography>
           {!user && (

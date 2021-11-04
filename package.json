@@ -13,8 +13,13 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
-    "@material-ui/core": "4.12.3",
-    "@material-ui/icons": "4.11.2",
+    "@emotion/cache": "11.5.0",
+    "@emotion/react": "11.5.0",
+    "@emotion/server": "11.4.0",
+    "@emotion/styled": "11.3.0",
+    "@mui/material": "5.0.6",
+    "@mui/icons-material": "5.0.5",
+    "@mui/system": "5.0.6",
     "firebase": "9.2.0",
     "firebase-admin": "10.0.0",
     "firebase-functions": "3.16.0",

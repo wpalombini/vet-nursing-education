@@ -1,6 +1,6 @@
-import { createTheme } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
-import deepOrange from '@material-ui/core/colors/deepOrange';
+import { createTheme } from '@mui/material/styles';
+import { blue } from '@mui/material/colors';
+import { deepOrange } from '@mui/material/colors';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -11,9 +11,13 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Roboto',
   },
-  props: {
+  components: {
     MuiLink: {
-      underline: 'none',
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+        },
+      },
     },
   },
 });

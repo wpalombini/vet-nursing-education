@@ -1,26 +1,13 @@
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { Theme } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
 import { NextPage } from 'next';
 import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArticleDto } from '../../models/article.dto';
 import { createArticle } from '../../services/article-service';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        marginBottom: theme.spacing(5),
-      },
-    },
-    paper: {
-      padding: theme.spacing(3),
-    },
-  }),
-);
 
 interface INewArticleFormData {
   content: string;
@@ -28,8 +15,6 @@ interface INewArticleFormData {
 }
 
 const CreateArticlePage: NextPage = () => {
-  const classes = useStyles();
-
   const {
     formState: { errors },
     handleSubmit,
@@ -58,8 +43,13 @@ const CreateArticlePage: NextPage = () => {
       <h1>Create new article</h1>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
-          <Paper className={classes.paper}>
-            <form onSubmit={handleSubmit(saveHandler)} className={classes.root}>
+          <Paper
+            sx={{
+              padding: (theme: Theme) => theme.spacing(3),
+              '& .MuiTextField-root': { marginBottom: (theme: Theme) => theme.spacing(5) },
+            }}
+          >
+            <form onSubmit={handleSubmit(saveHandler)}>
               <TextField
                 type="text"
                 label="Title"

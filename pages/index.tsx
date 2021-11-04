@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { Fragment } from 'react';
-import { Link as LinkUI } from '@material-ui/core';
+import { Link as LinkUI } from '@mui/material';
 import Link from 'next/link';
 
 const HomePage: NextPage = () => {
