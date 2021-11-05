@@ -15,15 +15,31 @@ const getDB = (): FirebaseFirestore.Firestore => {
 
 const getArticles = async (req: functions.Request, res: functions.Response) => {
   functions.logger.info('Start articles function get articles');
+  functions.logger.info('Query string:', req.query);
 
   const db = getDB();
 
-  // skip 'content' field
-  const snapshot = await db.collection(ARTICLES).select('id', 'title', 'createdAt', 'modifiedAt', 'author').get();
+  const articles: ArticleDto[] = [];
 
-  const articles = snapshot.docs.map((doc) => {
-    return { id: doc.id, ...doc.data() } as ArticleDto;
-  });
+  let articlesRef = db.collection(ARTICLES);
+
+  if (req.query.id) {
+    const articleDoc = await articlesRef.doc(req.query.id.toString()).get();
+    articles.push({ id: articleDoc.id, ...articleDoc.data() } as ArticleDto);
+  } else {
+    // skip 'content' field
+    let query = articlesRef.select('id', 'title', 'createdAt', 'modifiedAt', 'author');
+
+    if (req.query.title) {
+      query = articlesRef.where('title', '==', req.query.title);
+    }
+
+    const articleDocs = await query.get();
+
+    articleDocs.docs.map((doc) => {
+      articles.push({ id: doc.id, ...doc.data() } as ArticleDto);
+    });
+  }
 
   res.status(200).json(new ResponseDto<ArticleDto[]>(true, '', articles));
 

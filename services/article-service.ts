@@ -3,10 +3,18 @@ import { AuthorDto } from '../models/author.dto';
 import { ResponseDto } from '../models/response.dto';
 import { getAuthHeader } from '../utils/auth';
 import { getUserId, getUserName, getUserTokenId } from '../utils/firebase';
-import { getAuthorized, getPublic, postAuthorized } from '../utils/http';
+import { buildQueryString, getAuthorized, getPublic, postAuthorized } from '../utils/http';
 
-export const getPublicArticlesForServer = async (): Promise<ResponseDto<ArticleDto[]>> => {
-  return (await getPublic(`${process.env.BASE_FUNCTION_URL}/articles`)) as ResponseDto<ArticleDto[]>;
+export const getPublicArticlesForServer = async (params: any = null): Promise<ResponseDto<ArticleDto[]>> => {
+  let queryString;
+
+  if (params) {
+    queryString = buildQueryString(params);
+  }
+
+  return (await getPublic(
+    `${process.env.BASE_FUNCTION_URL}/articles${queryString ? '?' : ''}${queryString || ''}`,
+  )) as ResponseDto<ArticleDto[]>;
 };
 
 export const getPrivateArticlesForServer = async (): Promise<ResponseDto<ArticleDto[]>> => {

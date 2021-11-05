@@ -2,7 +2,7 @@ import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'ne
 import Head from 'next/head';
 import { Link as LinkUI } from '@mui/material';
 import Link from 'next/link';
-import { getPublicArticlesForServer } from '../../services/article-service';
+import { getArticlesForClient, getPublicArticlesForServer } from '../../services/article-service';
 import { ArticleDto } from '../../models/article.dto';
 
 interface IArticlesPageProps {

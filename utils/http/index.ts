@@ -18,3 +18,9 @@ export const postAuthorized = async (url: string, data: any, requestInit?: Reque
   const response = await fetch(url, requestInitObject);
   return await response.json();
 };
+
+export const buildQueryString = (params: any) => {
+  return Object.keys(params)
+    .map((key) => key + '=' + params[key])
+    .join('&');
+};
