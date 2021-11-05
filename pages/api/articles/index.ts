@@ -1,20 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { ArticleDto } from '../../../models/article.dto';
+import { ResponseDto } from '../../../models/response.dto';
+import { getPublicArticlesForServer } from '../../../services/article-service';
 
-type Data = {
-  name: string;
+const articlesHandler = async (req: NextApiRequest, res: NextApiResponse<ResponseDto<ArticleDto[]>>): Promise<void> => {
+  res.status(200).json(await getPublicArticlesForServer());
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Data>): Promise<void> => {
-  const authHeader = req.headers.authorization;
-
-  const response = await fetch(
-    `${process.env.BASE_FUNCTION_URL}/articles`,
-    authHeader ? { headers: { Authorization: authHeader } } : undefined,
-  );
-
-  const data = await response.json();
-
-  res.status(200).json(data);
-};
-
-export default handler;
+export default articlesHandler;

@@ -1,15 +1,24 @@
 import { ArticleDto } from '../models/article.dto';
 import { AuthorDto } from '../models/author.dto';
 import { ResponseDto } from '../models/response.dto';
+import { getAuthHeader } from '../utils/auth';
 import { getUserId, getUserName, getUserTokenId } from '../utils/firebase';
-import { getAuthorized, postAuthorized } from '../utils/http';
+import { getAuthorized, getPublic, postAuthorized } from '../utils/http';
 
-export const getArticles = async (): Promise<ResponseDto<ArticleDto[]>> => {
+export const getPublicArticlesForServer = async (): Promise<ResponseDto<ArticleDto[]>> => {
+  return (await getPublic(`${process.env.BASE_FUNCTION_URL}/articles`)) as ResponseDto<ArticleDto[]>;
+};
+
+export const getPrivateArticlesForServer = async (): Promise<ResponseDto<ArticleDto[]>> => {
   const tkn = await getUserTokenId();
 
-  return (await getAuthorized('/api/articles', { headers: { Authorization: `Bearer ${tkn}` } })) as ResponseDto<
-    ArticleDto[]
-  >;
+  return (await getAuthorized(`${process.env.BASE_FUNCTION_URL}/articles`, {
+    headers: { Authorization: getAuthHeader(tkn) },
+  })) as ResponseDto<ArticleDto[]>;
+};
+
+export const getArticlesForClient = async (): Promise<ResponseDto<ArticleDto[]>> => {
+  return (await getPublic('/api/articles')) as ResponseDto<ArticleDto[]>;
 };
 
 export const createArticle = async (article: ArticleDto): Promise<ResponseDto<ArticleDto>> => {
@@ -24,6 +33,6 @@ export const createArticle = async (article: ArticleDto): Promise<ResponseDto<Ar
   article.author.name = await getUserName();
 
   return (await postAuthorized('/api/articles/create', article, {
-    headers: { Authorization: `Bearer ${tkn}` },
+    headers: { Authorization: getAuthHeader(tkn) },
   })) as ResponseDto<ArticleDto>;
 };
