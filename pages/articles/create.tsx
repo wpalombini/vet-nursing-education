@@ -1,12 +1,9 @@
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { Theme } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
+import { Button, Grid, Paper, Theme, TextField } from '@mui/material';
 import { NextPage } from 'next';
-import { Fragment } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArticleDto } from '../../models/article.dto';
+import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
 import { createArticle } from '../../services/article-service';
 
 interface INewArticleFormData {
@@ -15,21 +12,39 @@ interface INewArticleFormData {
 }
 
 const CreateArticlePage: NextPage = () => {
+  const { isLoading, setIsLoading, setNotification } = useContext(UXContext);
+
   const {
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     register,
     reset,
   } = useForm<INewArticleFormData>();
 
   const saveHandler = (formData: INewArticleFormData) => {
-    const saveArticle = async (article: ArticleDto) => {
-      // save article
-      const result = await createArticle(article);
-      console.log(result);
+    setIsLoading(true);
 
-      // reset form
-      reset({} as INewArticleFormData, { keepDirty: false });
+    const notification = new UXNotification();
+    notification.message = 'Content successfully saved';
+    notification.type = NotificationType.Success;
+
+    const saveArticle = async (article: ArticleDto) => {
+      try {
+        // save article
+        const result = await createArticle(article);
+        console.log(result);
+
+        // reset form
+        reset({} as INewArticleFormData, { keepDirty: false });
+      } catch (error) {
+        notification.type = NotificationType.Error;
+        notification.message = 'An error occurred while saving your content.';
+
+        setNotification(notification);
+      }
+
+      setNotification(notification);
+      setIsLoading(false);
     };
 
     const data: ArticleDto = new ArticleDto();
@@ -39,7 +54,7 @@ const CreateArticlePage: NextPage = () => {
   };
 
   return (
-    <Fragment>
+    <>
       <h1>Create new article</h1>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
@@ -71,14 +86,14 @@ const CreateArticlePage: NextPage = () => {
                 {...register('content', { required: true })}
               />
 
-              <Button type="submit" variant="outlined">
+              <Button type="submit" variant="outlined" disabled={isLoading || !isDirty}>
                 Save
               </Button>
             </form>
           </Paper>
         </Grid>
       </Grid>
-    </Fragment>
+    </>
   );
 };
 

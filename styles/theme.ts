@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { deepOrange } from '@mui/material/colors';
 

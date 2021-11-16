@@ -1,13 +1,12 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { FC, Fragment, useEffect } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
+import { useEffect } from 'react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '../styles/theme';
-import LayoutComponent from '../components/Layout/LayoutComponent';
+import Layout from '../components/Layout/Layout';
 import { UXProvider } from '../providers/UXProvider';
 
-const VNEApp: FC<any> = ({ Component, pageProps }: AppProps) => {
+const VNEApp: ({ Component, pageProps }: AppProps) => JSX.Element = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -17,7 +16,7 @@ const VNEApp: FC<any> = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <Head>
         <title>Vet Nursing Education</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -25,12 +24,12 @@ const VNEApp: FC<any> = ({ Component, pageProps }: AppProps) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <UXProvider>
-          <LayoutComponent>
+          <Layout>
             <Component {...pageProps} />
-          </LayoutComponent>
+          </Layout>
         </UXProvider>
       </ThemeProvider>
-    </Fragment>
+    </>
   );
 };
 export default VNEApp;
