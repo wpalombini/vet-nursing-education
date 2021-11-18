@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import HomePage from './index';
+import HomePage from '../pages/index';
 
 describe('Home page tests:', () => {
   test('Home page renders successfully', () => {

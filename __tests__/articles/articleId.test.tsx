@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ArticleDto } from '../../models/article.dto';
-import ArticlePage from './[articleId]';
+import ArticlePage from '../../pages/articles/[articleId]';
 
 jest.mock('firebase/auth');
 
