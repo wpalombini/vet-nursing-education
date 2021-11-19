@@ -47,7 +47,8 @@ const Layout: (props: ILayoutProps) => JSX.Element = (props: ILayoutProps) => {
         ) : undefined}
       </Snackbar>
       <NavBar />
-      {isLoading && <LinearProgress color="secondary" />}
+      <div style={{ height: '4px' }}>{isLoading && <LinearProgress color="secondary" />}</div>
+
       <Container maxWidth="lg" sx={{ paddingTop: '20px' }}>
         {props.children}
       </Container>
