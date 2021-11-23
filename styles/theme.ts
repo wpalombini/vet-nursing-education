@@ -7,6 +7,9 @@ const theme = createTheme({
   palette: {
     primary: blue,
     secondary: deepOrange,
+    background: {
+      default: '#eee',
+    },
   },
   typography: {
     fontFamily: 'Roboto',

@@ -16,7 +16,7 @@ describe('Article page tests:', () => {
     render(<ArticlePage article={article} />);
 
     // Assert
-    const h1 = screen.getByText(/^Article:/);
-    expect(h1).toHaveTextContent(/^Article: The title$/);
+    const header = screen.getByRole('heading');
+    expect(header).toHaveTextContent(/^The title$/);
   });
 });

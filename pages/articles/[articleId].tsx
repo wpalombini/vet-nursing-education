@@ -1,7 +1,8 @@
 import type { GetServerSidePropsContext, NextPage } from 'next';
+import { Box, Grid } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { Fragment } from 'react';
+import CardContainer from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { getPublicArticlesForServer } from '../../services/article-service';
 
@@ -15,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
     const response = await getPublicArticlesForServer({ id });
 
-    if (!response?.success && response.data.length > 0) throw new Error();
+    if (!response?.success) throw new Error();
 
     const article = response.data[0];
 
@@ -33,14 +34,16 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
   return (
-    <Fragment>
+    <>
       <Head>
         <title>VNE - {props.article.title}</title>
       </Head>
-      <h1>Article: {props.article.title}</h1>
-      <h5>Article Id: {props.article.id}</h5>
-      {props.article.content}
-    </Fragment>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={8}>
+          <CardContainer header={props.article.title} content={<Box>{props.article.content}</Box>} />
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

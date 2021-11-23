@@ -1,9 +1,10 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
-import { Link as LinkUI } from '@mui/material';
+import { Box, Grid, Link as LinkUI } from '@mui/material';
 import Link from 'next/link';
-import { getArticlesForClient, getPublicArticlesForServer } from '../../services/article-service';
+import { getPublicArticlesForServer } from '../../services/article-service';
 import { ArticleDto } from '../../models/article.dto';
+import CardContainer from '../../components/CardContainer';
 
 interface IArticlesPageProps {
   articles: ArticleDto[];
@@ -30,21 +31,35 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 };
 
 const ArticlesPage: NextPage<IArticlesPageProps> = (props: IArticlesPageProps) => {
+  const isLast = (index: number, total: number) => {
+    return index === total - 1;
+  };
+
   return (
     <>
       <Head>
         <title>VNE - Articles</title>
       </Head>
-      <h1>Articles Page</h1>
-      {props.articles &&
-        props.articles.length > 0 &&
-        props.articles.map((article: ArticleDto, index: number) => (
-          <div key={index}>
-            <Link href={`articles/${article.id}`}>
-              <LinkUI href={`articles/${article.id}`}>{article.title}</LinkUI>
-            </Link>
-          </div>
-        ))}
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={8}>
+          <CardContainer
+            header="Articles List"
+            content={
+              props.articles?.length > 0 &&
+              props.articles.map((article: ArticleDto, index: number) => (
+                <Box key={article.id}>
+                  <h3>
+                    <Link href={`articles/${article.id}`}>
+                      <LinkUI href={`articles/${article.id}`}>{article.title}</LinkUI>
+                    </Link>
+                  </h3>
+                  {!isLast(index, props.articles.length) && <hr />}
+                </Box>
+              ))
+            }
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

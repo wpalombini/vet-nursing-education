@@ -1,4 +1,4 @@
-import { forwardRef, ReactChild, useContext, useEffect } from 'react';
+import { forwardRef, ReactNode, useContext, useEffect } from 'react';
 import { Container, LinearProgress, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import NavBar from './NavBar';
@@ -6,7 +6,7 @@ import { UXContext } from '../../providers/UXProvider';
 import { useRouter } from 'next/router';
 
 interface ILayoutProps {
-  children: ReactChild;
+  children: ReactNode;
 }
 
 const Layout: (props: ILayoutProps) => JSX.Element = (props: ILayoutProps) => {

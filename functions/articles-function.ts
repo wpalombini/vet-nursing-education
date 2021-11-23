@@ -25,7 +25,10 @@ const getArticles = async (req: functions.Request, res: functions.Response) => {
 
   if (req.query.id) {
     const articleDoc = await articlesRef.doc(req.query.id.toString()).get();
-    articles.push({ id: articleDoc.id, ...articleDoc.data() } as ArticleDto);
+    const data = articleDoc.data();
+    if (data) {
+      articles.push({ id: articleDoc.id, ...data } as ArticleDto);
+    }
   } else {
     // skip 'content' field
     let query = articlesRef.select('id', 'title', 'createdAt', 'modifiedAt', 'author');
@@ -37,11 +40,16 @@ const getArticles = async (req: functions.Request, res: functions.Response) => {
     const articleDocs = await query.get();
 
     articleDocs.docs.map((doc) => {
-      articles.push({ id: doc.id, ...doc.data() } as ArticleDto);
+      const data = doc.data();
+      if (data) {
+        articles.push({ id: doc.id, ...doc.data() } as ArticleDto);
+      }
     });
   }
 
-  res.status(200).json(new ResponseDto<ArticleDto[]>(true, '', articles));
+  const success = articles.length > 0;
+  const message = success ? '' : 'No articles found';
+  res.status(200).json(new ResponseDto<ArticleDto[]>(success, message, articles));
 
   functions.logger.info('End articles function get articles', { articles: articles });
 };

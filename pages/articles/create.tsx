@@ -1,7 +1,8 @@
-import { Button, Grid, Paper, Theme, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField, Theme } from '@mui/material';
 import { NextPage } from 'next';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import CardContainer from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
 import { createArticle } from '../../services/article-service';
@@ -54,46 +55,48 @@ const CreateArticlePage: NextPage = () => {
   };
 
   return (
-    <>
-      <h1>Create new article</h1>
-      <Grid container justifyContent="center">
-        <Grid item xs={12} md={8}>
-          <Paper
-            sx={{
-              padding: (theme: Theme) => theme.spacing(3),
-              '& .MuiTextField-root': { marginBottom: (theme: Theme) => theme.spacing(5) },
-            }}
-          >
-            <form onSubmit={handleSubmit(saveHandler)}>
-              <TextField
-                type="text"
-                label="Title"
-                error={!!errors.title}
-                helperText={errors.title ? 'Invalid title' : ''}
-                fullWidth
-                variant="outlined"
-                {...register('title', { required: true })}
-              />
+    <Grid container justifyContent="center">
+      <Grid item xs={12} md={8}>
+        <CardContainer
+          header="Create a new article"
+          content={
+            <Box
+              sx={{
+                padding: (theme: Theme) => theme.spacing(3),
+                '& .MuiTextField-root': { marginBottom: (theme: Theme) => theme.spacing(3) },
+              }}
+            >
+              <form onSubmit={handleSubmit(saveHandler)}>
+                <TextField
+                  type="text"
+                  label="Title"
+                  error={!!errors.title}
+                  helperText={errors.title ? 'Invalid title' : ''}
+                  fullWidth
+                  variant="outlined"
+                  {...register('title', { required: true })}
+                />
 
-              <TextField
-                multiline
-                minRows={10}
-                label="Content"
-                error={!!errors.content}
-                helperText={errors.content ? 'Invalid content' : ''}
-                fullWidth
-                variant="outlined"
-                {...register('content', { required: true })}
-              />
+                <TextField
+                  multiline
+                  minRows={10}
+                  label="Content"
+                  error={!!errors.content}
+                  helperText={errors.content ? 'Invalid content' : ''}
+                  fullWidth
+                  variant="outlined"
+                  {...register('content', { required: true })}
+                />
 
-              <Button type="submit" variant="outlined" disabled={isLoading || !isDirty}>
-                Save
-              </Button>
-            </form>
-          </Paper>
-        </Grid>
+                <Button type="submit" variant="outlined" disabled={isLoading || !isDirty}>
+                  Save
+                </Button>
+              </form>
+            </Box>
+          }
+        />
       </Grid>
-    </>
+    </Grid>
   );
 };
 

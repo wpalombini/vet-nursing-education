@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '../styles/theme';
 import Layout from '../components/Layout/Layout';
 import { UXProvider } from '../providers/UXProvider';
+import { BreadCrumbs } from '../components/Layout/BreadCrumbs';
 
 const VNEApp: ({ Component, pageProps }: AppProps) => JSX.Element = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const VNEApp: ({ Component, pageProps }: AppProps) => JSX.Element = ({ Component
         <CssBaseline />
         <UXProvider>
           <Layout>
+            <BreadCrumbs />
             <Component {...pageProps} />
           </Layout>
         </UXProvider>
