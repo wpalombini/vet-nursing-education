@@ -1,5 +1,6 @@
 import { Box, Button, Grid, TextField, Theme } from '@mui/material';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import CardContainer from '../../components/CardContainer';
@@ -14,6 +15,7 @@ interface INewArticleFormData {
 
 const CreateArticlePage: NextPage = () => {
   const { isLoading, setIsLoading, setNotification } = useContext(UXContext);
+  const router = useRouter();
 
   const {
     formState: { errors, isDirty },
@@ -33,10 +35,9 @@ const CreateArticlePage: NextPage = () => {
       try {
         // save article
         const result = await createArticle(article);
-        console.log(result);
 
-        // reset form
-        reset({} as INewArticleFormData, { keepDirty: false });
+        // navigate to articles page
+        router.push(`/articles/${result.data.id}`);
       } catch (error) {
         notification.type = NotificationType.Error;
         notification.message = 'An error occurred while saving your content.';
