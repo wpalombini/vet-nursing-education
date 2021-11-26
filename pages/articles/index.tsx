@@ -35,6 +35,22 @@ const ArticlesPage: NextPage<IArticlesPageProps> = (props: IArticlesPageProps) =
     return index === total - 1;
   };
 
+  const sortArticles = (a: ArticleDto, b: ArticleDto) => {
+    if (a.modifiedAt && b.modifiedAt) {
+      const aParsed = Date.parse(a.modifiedAt);
+      const bParsed = Date.parse(b.modifiedAt);
+      if (aParsed > bParsed) {
+        return 1;
+      } else if (aParsed < bParsed) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+
+    return 0;
+  };
+
   return (
     <>
       <Head>
@@ -46,7 +62,7 @@ const ArticlesPage: NextPage<IArticlesPageProps> = (props: IArticlesPageProps) =
             header="Articles List"
             content={
               props.articles?.length > 0 &&
-              props.articles.map((article: ArticleDto, index: number) => (
+              props.articles.sort(sortArticles).map((article: ArticleDto, index: number) => (
                 <Box key={article.id}>
                   <h3>
                     <Link href={`articles/${article.id}`}>
