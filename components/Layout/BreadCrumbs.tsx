@@ -1,6 +1,6 @@
 import { Grid, Box, Link as LinkUI } from '@mui/material';
 import { useRouter } from 'next/router';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export const BreadCrumbs = () => {

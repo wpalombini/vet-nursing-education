@@ -1,4 +1,4 @@
-import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { Box, Grid, Link as LinkUI } from '@mui/material';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ interface IArticlesPageProps {
   articles: ArticleDto[];
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const response = await getPublicArticlesForServer();
 

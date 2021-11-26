@@ -21,7 +21,6 @@ const CreateArticlePage: NextPage = () => {
     formState: { errors, isDirty },
     handleSubmit,
     register,
-    reset,
   } = useForm<INewArticleFormData>();
 
   const saveHandler = (formData: INewArticleFormData) => {
