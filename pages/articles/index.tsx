@@ -4,7 +4,7 @@ import { Box, Grid, Link as LinkUI } from '@mui/material';
 import Link from 'next/link';
 import { getPublicArticlesForServer } from '../../services/article-service';
 import { ArticleDto } from '../../models/article.dto';
-import CardContainer from '../../components/CardContainer';
+import { CardContainer, CardTitle } from '../../components/CardContainer';
 
 interface IArticlesPageProps {
   articles: ArticleDto[];
@@ -59,7 +59,7 @@ const ArticlesPage: NextPage<IArticlesPageProps> = (props: IArticlesPageProps) =
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
           <CardContainer
-            header="Articles List"
+            header={<CardTitle title="Articles List" />}
             content={
               props.articles?.length > 0 &&
               props.articles.sort(sortArticles).map((article: ArticleDto, index: number) => (

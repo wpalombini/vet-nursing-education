@@ -1,8 +1,11 @@
 import type { GetServerSidePropsContext, NextPage } from 'next';
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
+import ModeEdit from '@mui/icons-material/ModeEdit';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import CardContainer from '../../components/CardContainer';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
+import { CardContainer, CardTitle } from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { getPublicArticlesForServer } from '../../services/article-service';
 
@@ -33,6 +36,33 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 };
 
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
+  const [user] = useAuthState(getAuth());
+
+  const HeaderContent = () => {
+    return (
+      <Grid container>
+        <Grid item xs={11}>
+          <Box
+            sx={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            <CardTitle title={props.article.title} />
+          </Box>
+        </Grid>
+        <Grid item xs={1} textAlign="right">
+          {user && (
+            <Button color="inherit">
+              <ModeEdit />
+            </Button>
+          )}
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -40,7 +70,7 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
       </Head>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
-          <CardContainer header={props.article.title} content={<Box>{props.article.content}</Box>} />
+          <CardContainer header={<HeaderContent />} content={<Box>{props.article.content}</Box>} />
         </Grid>
       </Grid>
     </>

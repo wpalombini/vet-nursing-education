@@ -1,32 +1,51 @@
-import { Card, CardContent, CardHeader } from '@mui/material';
+import { Card, CardContent, Grid } from '@mui/material';
 import { Theme } from '@mui/system';
 import { ReactNode } from 'react';
 
 export interface ICardContainerProps {
-  header?: string;
+  header?: ReactNode;
   content?: ReactNode;
 }
 
-const CardContainer: (props: ICardContainerProps) => JSX.Element = (props: ICardContainerProps) => {
+export const CardTitle = ({ title }: any) => {
+  return (
+    <h2
+      style={{
+        fontWeight: 'bold',
+        opacity: '0.7',
+        margin: '0',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}
+    >
+      {title}
+    </h2>
+  );
+};
+
+export const CardContainer: (props: ICardContainerProps) => JSX.Element = (props: ICardContainerProps) => {
   return (
     <Card>
       {props.header && (
-        <CardHeader
-          component="h3"
+        <Grid
+          container
           sx={{
             backgroundColor: '#ddd',
             borderBottom: '1px solid #bbb',
             margin: 0,
-            paddingX: (theme: Theme) => theme.spacing(3),
-            '& .MuiCardHeader-title': { fontWeight: 500, opacity: '0.7' },
+            padding: (theme: Theme) => theme.spacing(3),
           }}
-          title={props.header}
-        />
+        >
+          <Grid item xs={12}>
+            {props.header}
+          </Grid>
+        </Grid>
       )}
       {props.content && (
         <CardContent
           sx={{
-            paddingX: (theme: Theme) => theme.spacing(3),
+            padding: (theme: Theme) => theme.spacing(3),
             '&:last-child': { paddingBottom: (theme: Theme) => theme.spacing(2) },
           }}
         >
@@ -36,5 +55,3 @@ const CardContainer: (props: ICardContainerProps) => JSX.Element = (props: ICard
     </Card>
   );
 };
-
-export default CardContainer;

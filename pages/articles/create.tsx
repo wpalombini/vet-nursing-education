@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import CardContainer from '../../components/CardContainer';
+import { CardContainer, CardTitle } from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
 import { createArticle } from '../../services/article-service';
@@ -58,11 +58,10 @@ const CreateArticlePage: NextPage = () => {
     <Grid container justifyContent="center">
       <Grid item xs={12} md={8}>
         <CardContainer
-          header="Create a new article"
+          header={<CardTitle title="Create a new article" />}
           content={
             <Box
               sx={{
-                padding: (theme: Theme) => theme.spacing(3),
                 '& .MuiTextField-root': { marginBottom: (theme: Theme) => theme.spacing(3) },
               }}
             >
