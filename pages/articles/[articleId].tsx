@@ -8,6 +8,7 @@ import { getAuth } from 'firebase/auth';
 import { CardContainer, CardTitle } from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { getPublicArticlesForServer } from '../../services/article-service';
+import { useEffect, useState } from 'react';
 
 interface IArticlePageProps {
   article: ArticleDto;
@@ -37,6 +38,11 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
   const [user] = useAuthState(getAuth());
+  const [showEditButton, setShowEditButton] = useState(false);
+
+  useEffect(() => {
+    setShowEditButton(!!user && !!props.article.author && user.uid === props.article.author.id);
+  }, [user]);
 
   const HeaderContent = () => {
     return (
@@ -53,7 +59,7 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
           </Box>
         </Grid>
         <Grid item xs={1} textAlign="right">
-          {user && (
+          {showEditButton && (
             <Button color="inherit">
               <ModeEdit />
             </Button>
