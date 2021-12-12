@@ -37,12 +37,12 @@ export const BreadCrumbs = () => {
         <Box>
           {paths &&
             paths.map((path: string, index: number) => (
-              <>
+              <span key={path}>
                 <Link href={`${path}`}>
                   <LinkUI href={`${path}`}>{pathNames[path]}</LinkUI>
                 </Link>
                 {index !== paths.length - 1 ? <span style={{ padding: '0 5px', opacity: '0.7' }}>&gt;</span> : null}
-              </>
+              </span>
             ))}
         </Box>
       </Grid>

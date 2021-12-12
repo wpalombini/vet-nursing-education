@@ -8,7 +8,9 @@ import { getAuth } from 'firebase/auth';
 import { CardContainer, CardTitle } from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { getPublicArticlesForServer } from '../../services/article-service';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { ArticleDetailsForm, IArticleFormData, IArticleFormProps } from '../../components/Articles/ArticleDetailsForm';
+import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
 
 interface IArticlePageProps {
   article: ArticleDto;
@@ -37,12 +39,62 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 };
 
 const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
+  const { setIsLoading, setNotification } = useContext(UXContext);
   const [user] = useAuthState(getAuth());
+  const [article, setArticle] = useState({ ...props.article });
   const [showEditButton, setShowEditButton] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [articleDetailsFormData, setArticleDetailsFormData] = useState<IArticleFormProps>({} as IArticleFormProps);
 
   useEffect(() => {
-    setShowEditButton(!!user && !!props.article.author && user.uid === props.article.author.id);
+    setShowEditButton(!!user && !!article.author && user.uid === article.author.id);
   }, [user]);
+
+  const handleEditIconClick = () => {
+    setArticleDetailsFormData({
+      title: article.title,
+      content: article.content,
+      saveArticle: saveHandler,
+    });
+
+    setIsEditing(true);
+  };
+
+  const saveHandler = (formData: IArticleFormData) => {
+    setIsLoading(true);
+
+    const notification = new UXNotification();
+    notification.message = 'Content successfully saved';
+    notification.type = NotificationType.Success;
+
+    const saveArticle = async (formData: ArticleDto) => {
+      try {
+        // save article
+        //const result = await createArticle(formData);
+
+        setArticle((previousState) => ({
+          ...previousState,
+          title: formData.title,
+          content: formData.content,
+        }));
+
+        setIsEditing(false);
+      } catch (error) {
+        notification.type = NotificationType.Error;
+        notification.message = 'An error occurred while saving your content.';
+
+        setNotification(notification);
+      }
+
+      setNotification(notification);
+      setIsLoading(false);
+    };
+
+    const data: ArticleDto = new ArticleDto();
+    data.title = formData.title;
+    data.content = formData.content;
+    saveArticle(data);
+  };
 
   const HeaderContent = () => {
     return (
@@ -55,12 +107,12 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
               textOverflow: 'ellipsis',
             }}
           >
-            <CardTitle title={props.article.title} />
+            <CardTitle title={article.title} />
           </Box>
         </Grid>
         <Grid item xs={1} textAlign="right">
           {showEditButton && (
-            <Button color="inherit">
+            <Button color="inherit" onClick={handleEditIconClick}>
               <ModeEdit />
             </Button>
           )}
@@ -72,11 +124,12 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
   return (
     <>
       <Head>
-        <title>VNE - {props.article.title}</title>
+        <title>VNE - {article.title}</title>
       </Head>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
-          <CardContainer header={<HeaderContent />} content={<Box>{props.article.content}</Box>} />
+          {!isEditing && <CardContainer header={<HeaderContent />} content={<Box>{article.content}</Box>} />}
+          {isEditing && <ArticleDetailsForm {...articleDetailsFormData} />}
         </Grid>
       </Grid>
     </>

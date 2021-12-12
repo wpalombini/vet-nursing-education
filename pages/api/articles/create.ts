@@ -1,10 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
-  name: string;
-};
-
-const handler = async (req: NextApiRequest, res: NextApiResponse<Data>): Promise<void> => {
+const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   const requestInit: RequestInit = {
     method: 'POST',
     headers: { authorization: req.headers.authorization } as HeadersInit,

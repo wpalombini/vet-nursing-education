@@ -1,29 +1,27 @@
-import { Box, Button, Grid, TextField, Theme } from '@mui/material';
+import { Grid } from '@mui/material';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
-import { useForm } from 'react-hook-form';
+import { useContext, useEffect, useState } from 'react';
+import { ArticleDetailsForm, IArticleFormData, IArticleFormProps } from '../../components/Articles/ArticleDetailsForm';
 import { CardContainer, CardTitle } from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
 import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
 import { createArticle } from '../../services/article-service';
 
-interface INewArticleFormData {
-  content: string;
-  title: string;
-}
-
 const CreateArticlePage: NextPage = () => {
-  const { isLoading, setIsLoading, setNotification } = useContext(UXContext);
+  const { setIsLoading, setNotification } = useContext(UXContext);
+  const [articleDetailsData, setArticleDetailsData] = useState<IArticleFormProps>({} as IArticleFormProps);
   const router = useRouter();
 
-  const {
-    formState: { errors, isDirty },
-    handleSubmit,
-    register,
-  } = useForm<INewArticleFormData>();
+  useEffect(() => {
+    setArticleDetailsData({
+      title: undefined,
+      content: undefined,
+      saveArticle: saveHandler,
+    });
+  }, []);
 
-  const saveHandler = (formData: INewArticleFormData) => {
+  const saveHandler = (formData: IArticleFormData) => {
     setIsLoading(true);
 
     const notification = new UXNotification();
@@ -58,41 +56,8 @@ const CreateArticlePage: NextPage = () => {
     <Grid container justifyContent="center">
       <Grid item xs={12} md={8}>
         <CardContainer
-          header={<CardTitle title="Create a new article" />}
-          content={
-            <Box
-              sx={{
-                '& .MuiTextField-root': { marginBottom: (theme: Theme) => theme.spacing(3) },
-              }}
-            >
-              <form onSubmit={handleSubmit(saveHandler)}>
-                <TextField
-                  type="text"
-                  label="Title"
-                  error={!!errors.title}
-                  helperText={errors.title ? 'Invalid title' : ''}
-                  fullWidth
-                  variant="outlined"
-                  {...register('title', { required: true })}
-                />
-
-                <TextField
-                  multiline
-                  minRows={10}
-                  label="Content"
-                  error={!!errors.content}
-                  helperText={errors.content ? 'Invalid content' : ''}
-                  fullWidth
-                  variant="outlined"
-                  {...register('content', { required: true })}
-                />
-
-                <Button type="submit" variant="outlined" disabled={isLoading || !isDirty}>
-                  Save
-                </Button>
-              </form>
-            </Box>
-          }
+          header={<CardTitle title="Article Details" />}
+          content={<ArticleDetailsForm {...articleDetailsData} />}
         />
       </Grid>
     </Grid>
