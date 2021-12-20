@@ -81,9 +81,7 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
         setIsEditing(false);
       } catch (error) {
         notification.type = NotificationType.Error;
-        notification.message = 'An error occurred while saving your content.';
-
-        setNotification(notification);
+        notification.message = 'An error occurred while saving the article.';
       }
 
       setNotification(notification);

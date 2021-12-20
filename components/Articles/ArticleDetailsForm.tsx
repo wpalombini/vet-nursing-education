@@ -37,6 +37,7 @@ export const ArticleDetailsForm: (props: IArticleFormProps) => JSX.Element = (pr
     >
       <form onSubmit={handleSubmit(props.saveArticle)}>
         <TextField
+          id="title"
           type="text"
           label="Title"
           error={!!errors.title}
@@ -47,6 +48,7 @@ export const ArticleDetailsForm: (props: IArticleFormProps) => JSX.Element = (pr
         />
 
         <TextField
+          id="content"
           multiline
           minRows={10}
           label="Content"
