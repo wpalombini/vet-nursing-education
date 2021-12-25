@@ -3,6 +3,7 @@ import {
   getArticlesForClient,
   getPrivateArticlesForServer,
   getPublicArticlesForServer,
+  updateArticle,
 } from '../../services/article-service';
 
 global.fetch = jest.fn(() =>
@@ -54,6 +55,13 @@ describe('Services > article-service', () => {
   describe('createArticle', () => {
     test('should return expected result', async () => {
       const result = await createArticle({} as any);
+      expect(result).toEqual({ result: 'success' });
+    });
+  });
+
+  describe('updateArticle', () => {
+    test('should return expected result', async () => {
+      const result = await updateArticle({} as any);
       expect(result).toEqual({ result: 'success' });
     });
   });

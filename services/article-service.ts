@@ -3,7 +3,7 @@ import { AuthorDto } from '../models/author.dto';
 import { ResponseDto } from '../models/response.dto';
 import { getAuthHeader } from '../utils/auth';
 import { getUserId, getUserName, getUserTokenId } from '../utils/firebase';
-import { buildQueryString, getAuthorized, getPublic, postAuthorized } from '../utils/http';
+import { buildQueryString, getAuthorized, getPublic, postAuthorized, putAuthorized } from '../utils/http';
 
 export const getPublicArticlesForServer = async (params: any = null): Promise<ResponseDto<ArticleDto[]>> => {
   let queryString;
@@ -41,6 +41,18 @@ export const createArticle = async (article: ArticleDto): Promise<ResponseDto<Ar
   article.author.name = await getUserName();
 
   return (await postAuthorized('/api/articles/create', article, {
+    headers: { Authorization: getAuthHeader(tkn) },
+  })) as ResponseDto<ArticleDto>;
+};
+
+export const updateArticle = async (article: ArticleDto): Promise<ResponseDto<ArticleDto>> => {
+  const tkn = await getUserTokenId();
+
+  const dt: string = new Date().toISOString();
+
+  article.modifiedAt = dt;
+
+  return (await putAuthorized(`/api/articles/${article.id}`, article, {
     headers: { Authorization: getAuthHeader(tkn) },
   })) as ResponseDto<ArticleDto>;
 };

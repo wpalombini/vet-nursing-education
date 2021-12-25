@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import { CardContainer, CardTitle } from '../../components/CardContainer';
 import { ArticleDto } from '../../models/article.dto';
-import { getPublicArticlesForServer } from '../../services/article-service';
+import { getPublicArticlesForServer, updateArticle } from '../../services/article-service';
 import { useContext, useEffect, useState } from 'react';
 import { ArticleDetailsForm, IArticleFormData, IArticleFormProps } from '../../components/Articles/ArticleDetailsForm';
 import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
@@ -70,7 +70,7 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
     const saveArticle = async (formData: ArticleDto) => {
       try {
         // save article
-        //const result = await createArticle(formData);
+        await updateArticle(formData);
 
         setArticle((previousState) => ({
           ...previousState,
@@ -127,7 +127,12 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
           {!isEditing && <CardContainer header={<HeaderContent />} content={<Box>{article.content}</Box>} />}
-          {isEditing && <ArticleDetailsForm {...articleDetailsFormData} />}
+          {isEditing && (
+            <CardContainer
+              header={<CardTitle title="Article Details" />}
+              content={<ArticleDetailsForm {...articleDetailsFormData} />}
+            />
+          )}
         </Grid>
       </Grid>
     </>

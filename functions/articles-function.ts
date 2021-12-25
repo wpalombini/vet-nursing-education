@@ -69,6 +69,21 @@ const createArticle = async (req: functions.Request, res: functions.Response) =>
   functions.logger.info('End creating article', { authorization: req.headers.authorization, article: article });
 };
 
+const updateArticle = async (req: functions.Request, res: functions.Response) => {
+  functions.logger.info('Start updating article', { model: JSON.parse(req.body) });
+
+  const article: ArticleDto = JSON.parse(req.body);
+
+  const db = getDB();
+
+  // const document = await db.collection(ARTICLES).add(article);
+  // article.id = document.id;
+
+  res.status(200).json(new ResponseDto<ArticleDto>(true, '', article));
+
+  functions.logger.info('End updating article', { authorization: req.headers.authorization, article: article });
+};
+
 export const articlesFunction = functions.https.onRequest(async (req: functions.Request, res: functions.Response) => {
   functions.logger.info('Start articles function call', { http_method: req.method });
 
@@ -78,6 +93,9 @@ export const articlesFunction = functions.https.onRequest(async (req: functions.
       break;
     case 'POST':
       await createArticle(req, res);
+      break;
+    case 'PUT':
+      await updateArticle(req, res);
       break;
     default:
       throw new Error(`http method (${req.method}) not supported.`);
