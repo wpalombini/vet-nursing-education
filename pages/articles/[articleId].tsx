@@ -63,6 +63,12 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
   const saveHandler = (formData: IArticleFormData) => {
     setIsLoading(true);
 
+    setArticleDetailsFormData((previousState) => ({
+      ...previousState,
+      title: formData.title,
+      content: formData.content,
+    }));
+
     const notification = new UXNotification();
     notification.message = 'Content successfully saved';
     notification.type = NotificationType.Success;
@@ -88,7 +94,7 @@ const ArticlePage: NextPage<IArticlePageProps> = (props: IArticlePageProps) => {
       setIsLoading(false);
     };
 
-    const data: ArticleDto = new ArticleDto();
+    const data: ArticleDto = { ...article };
     data.title = formData.title;
     data.content = formData.content;
     saveArticle(data);

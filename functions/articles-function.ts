@@ -6,10 +6,6 @@ import { ResponseDto } from '../models/response.dto';
 const ARTICLES = 'articles';
 
 const getDB = (): FirebaseFirestore.Firestore => {
-  if (!admin.apps?.length) {
-    admin.initializeApp();
-  }
-
   return admin.firestore();
 };
 
@@ -72,12 +68,20 @@ const createArticle = async (req: functions.Request, res: functions.Response) =>
 const updateArticle = async (req: functions.Request, res: functions.Response) => {
   functions.logger.info('Start updating article', { model: JSON.parse(req.body) });
 
+  // verify token Id here
+
   const article: ArticleDto = JSON.parse(req.body);
+
+  if (!article.id) {
+    res.status(500).json(new ResponseDto<ArticleDto>(false, 'Invalid article id.', article));
+    return;
+  }
 
   const db = getDB();
 
-  // const document = await db.collection(ARTICLES).add(article);
-  // article.id = document.id;
+  const document = await db.collection(ARTICLES).doc(article.id);
+
+  await document.update({ ...article });
 
   res.status(200).json(new ResponseDto<ArticleDto>(true, '', article));
 
@@ -86,6 +90,10 @@ const updateArticle = async (req: functions.Request, res: functions.Response) =>
 
 export const articlesFunction = functions.https.onRequest(async (req: functions.Request, res: functions.Response) => {
   functions.logger.info('Start articles function call', { http_method: req.method });
+
+  if (!admin.apps?.length) {
+    admin.initializeApp();
+  }
 
   switch (req.method) {
     case 'GET':

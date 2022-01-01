@@ -8,7 +8,7 @@ import {
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve({ result: 'success' }),
+    json: () => Promise.resolve({ success: true }),
   }),
 ) as any;
 
@@ -34,35 +34,45 @@ describe('Services > article-service', () => {
   describe('getPublicArticlesForServer', () => {
     test('should return expected result', async () => {
       const result = await getPublicArticlesForServer();
-      expect(result).toEqual({ result: 'success' });
+      expect(result).toEqual({ success: true });
     });
   });
 
   describe('getPrivateArticlesForServer', () => {
     test('should return expected result', async () => {
       const result = await getPrivateArticlesForServer();
-      expect(result).toEqual({ result: 'success' });
+      expect(result).toEqual({ success: true });
     });
   });
 
   describe('getArticlesForClient', () => {
     test('should return expected result', async () => {
       const result = await getArticlesForClient();
-      expect(result).toEqual({ result: 'success' });
+      expect(result).toEqual({ success: true });
     });
   });
 
   describe('createArticle', () => {
     test('should return expected result', async () => {
       const result = await createArticle({} as any);
-      expect(result).toEqual({ result: 'success' });
+      expect(result).toEqual({ success: true });
     });
   });
 
   describe('updateArticle', () => {
     test('should return expected result', async () => {
       const result = await updateArticle({} as any);
-      expect(result).toEqual({ result: 'success' });
+      expect(result).toEqual({ success: true });
+    });
+
+    test('should throw error when not sucessful', async () => {
+      (global.fetch as jest.Mock).mockImplementationOnce(() =>
+        Promise.resolve({
+          json: () => Promise.resolve({ success: false, message: 'Random test error message' }),
+        }),
+      );
+      const action = async () => await updateArticle({} as any);
+      expect(action).rejects.toThrow('Random test error message');
     });
   });
 });

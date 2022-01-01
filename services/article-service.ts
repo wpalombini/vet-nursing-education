@@ -52,7 +52,13 @@ export const updateArticle = async (article: ArticleDto): Promise<ResponseDto<Ar
 
   article.modifiedAt = dt;
 
-  return (await putAuthorized(`/api/articles/${article.id}`, article, {
+  const result = (await putAuthorized(`/api/articles/${article.id}`, article, {
     headers: { Authorization: getAuthHeader(tkn) },
   })) as ResponseDto<ArticleDto>;
+
+  if (result.success) {
+    return result;
+  }
+
+  throw new Error(result.message);
 };
